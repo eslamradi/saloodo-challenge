@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Biker;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -23,7 +24,7 @@ class AuthorizationTest extends TestCaseWithAcceptJson
      */
     public function test_guards_on_routes()
     {
-        $user = User::factory()->biker()->create();
+        $user = Biker::factory()->create();
         $token = Auth::guard($user->role)->login($user);
 
         $routePart = Str::random(6);

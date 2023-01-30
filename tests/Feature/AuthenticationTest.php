@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Biker;
+use App\Models\Customer;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -84,17 +86,15 @@ class AuthenticationTest extends TestCaseWithAcceptJson
 
     public function test_login_successful_with_role_checked()
     {
-        $role = Role::CUSTOMER;
         $email = 'test-customer-login@mail.com';
         $password = 'password';
 
-        $user = User::factory()->create([
+        $user = Customer::factory()->create([
             'email' => $email,
-            'password' => Hash::make($password),
-            'role' => $role
+            'password' => Hash::make($password)
         ]);
 
-        $response = $this->post("/api/{$role}/login", [
+        $response = $this->post("/api/{$user->role}/login", [
             'email' => $email,
             'password' => $password,
         ]);
@@ -103,19 +103,17 @@ class AuthenticationTest extends TestCaseWithAcceptJson
         $response->assertJson(
             fn (AssertableJson $json) =>
             $json->has('data.authorization.token')->etc()
-        )->assertJsonPath('data.user.role', $role);
+        )->assertJsonPath('data.user.role', $user->role);
 
-        $role = Role::BIKER;
         $email = 'test-biker-login@mail.com';
         $password = 'password';
 
-        $user = User::factory()->create([
+        $user = Biker::factory()->create([
             'email' => $email,
             'password' => Hash::make($password),
-            'role' => $role
         ]);
 
-        $response = $this->post("/api/{$role}/login", [
+        $response = $this->post("/api/{$user->role}/login", [
             'email' => $email,
             'password' => $password,
         ]);
@@ -124,22 +122,20 @@ class AuthenticationTest extends TestCaseWithAcceptJson
         $response->assertJson(
             fn (AssertableJson $json) =>
             $json->has('data.authorization.token')->etc()
-        )->assertJsonPath('data.user.role', $role);
+        )->assertJsonPath('data.user.role', $user->role);
     }
 
     public function test_login_fail()
     {
-        $role = Role::CUSTOMER;
         $email = 'testuserlogin@mail.com';
         $password = 'correctpassword';
 
-        $user = User::factory()->create([
+        $user = Customer::factory()->create([
             'email' => $email,
-            'password' => Hash::make($password),
-            'role' => $role
+            'password' => Hash::make($password)
         ]);
 
-        $response = $this->post("/api/{$role}/login", [
+        $response = $this->post("/api/{$user->role}/login", [
             'email' => $email,
             'password' => 'wrongpassword',
         ]);
@@ -150,13 +146,12 @@ class AuthenticationTest extends TestCaseWithAcceptJson
         $email = 'correct_mail@mail.com';
         $password = 'correctpassword';
 
-        $user = User::factory()->create([
+        $user = Customer::factory()->create([
             'email' => $email,
             'password' => Hash::make($password),
-            'role' => $role
         ]);
 
-        $response = $this->post("/api/{$role}/login", [
+        $response = $this->post("/api/{$user->role}/login", [
             'email' => 'wrong_mail@mail.com',
             'password' => $password,
         ]);
@@ -166,7 +161,7 @@ class AuthenticationTest extends TestCaseWithAcceptJson
 
     public function test_logout()
     {
-        $user = User::factory()->create();
+        $user = Customer::factory()->create();
         $token = Auth::guard($user->role)->login($user);
 
         $response = $this->withHeaders([
@@ -184,7 +179,7 @@ class AuthenticationTest extends TestCaseWithAcceptJson
 
     public function test_refresh_token()
     {
-        $user = User::factory()->create();
+        $user = Customer::factory()->create();
         $token = Auth::guard($user->role)->login($user);
 
         $response = $this->withHeaders([
