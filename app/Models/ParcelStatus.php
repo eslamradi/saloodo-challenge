@@ -7,9 +7,10 @@ use ReflectionClass;
 class ParcelStatus
 {
     public const PENDING = 1;
-    public const BEING_PICKED_UP = 2;
-    public const BEING_DELIVERED = 3;
-    public const DELIVERED = 4;
+    public const RESERVED = 2;
+    public const PICKED_UP = 3;
+    public const BEING_DELIVERED = 4;
+    public const DELIVERED = 5;
 
     public static function wording($status)
     {
@@ -21,5 +22,14 @@ class ParcelStatus
             }
         }
         return null;
+    }
+
+    public static function getBusyStatuses()
+    {
+        return [
+            self::RESERVED,
+            self::PICKED_UP,
+            self::BEING_DELIVERED
+        ];
     }
 }

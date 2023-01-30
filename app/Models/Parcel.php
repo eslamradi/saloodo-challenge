@@ -76,4 +76,9 @@ class Parcel extends Model
             get: fn ($value) => ParcelStatus::wording($value)
         );
     }
+
+    public function scopeAvailable()
+    {
+        return $this->where(['status' => ParcelStatus::PENDING]);
+    }
 }

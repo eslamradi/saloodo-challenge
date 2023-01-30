@@ -31,6 +31,6 @@ class Biker extends User
 
     public function isBusy()
     {
-        return ($this->parcels()->whereIn('status', [ParcelStatus::BEING_PICKED_UP, ParcelStatus::BEING_DELIVERED])->count() > 0);
+        return ($this->parcels()->whereIn('status', ParcelStatus::getBusyStatuses())->count() > 0);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BikersController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\ParcelsController;
 use App\Models\Role;
@@ -34,4 +35,10 @@ Route::middleware('auth:biker,customer')->controller(ParcelsController::class)->
 
 Route::middleware('auth:customer')->controller(CustomersController::class)->prefix('customer')->group(function () {
     Route::post('parcel', 'createParcel');
+});
+
+Route::middleware('auth:biker')->controller(BikersController::class)->prefix('biker')->group(function () {
+    Route::put('parcel/{id}/reserve', 'reserveParcel');
+    Route::put('parcel/{id}/pickup', 'createParcel');
+    Route::put('parcel/{id}/deliver', 'createParcel');
 });
