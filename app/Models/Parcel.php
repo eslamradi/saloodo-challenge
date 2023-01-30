@@ -11,6 +11,14 @@ class Parcel extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($parcel) {
+            $parcel->status = ParcelStatus::PENDING;
+        });
+    }
     /**
      * The attributes that are mass assignable.
      *

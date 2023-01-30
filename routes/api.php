@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\ParcelsController;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -29,4 +30,8 @@ Route::controller(AuthController::class)->prefix('{guard}')->group(function () {
 Route::middleware('auth:biker,customer')->controller(ParcelsController::class)->prefix('parcel')->group(function () {
     Route::get('', 'list');
     Route::get('{id}', 'show');
+});
+
+Route::middleware('auth:customer')->controller(CustomersController::class)->prefix('customer')->group(function () {
+    Route::post('parcel', 'createParcel');
 });

@@ -22,7 +22,7 @@ class CreateParcelsTable extends Migration
             $table->text('delivery_address');
             $table->integer('status');
             $table->foreignId('customer_id')->constrained('users');
-            $table->foreignId('biker_id')->constrained('users');
+            $table->foreignId('biker_id')->nullable();
             $table->text('description')->nullable();
             $table->timestamp('expected_pickup_time')->nullable();
             $table->timestamp('expected_dropoff_time')->nullable();

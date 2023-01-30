@@ -16,12 +16,17 @@ class UserRepository extends Repository
      */
     public function create($data)
     {
-        return $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => $data['role'],
-        ]);
+        $model = "\\App\\Models\\" . ucfirst($data['role']);
+        if (class_exists($model)) {
+            return $model::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => $data['role'],
+            ]);
+        }
+
+        throw new Error("Class {$model} does n ot exist");
     }
 
     /**
