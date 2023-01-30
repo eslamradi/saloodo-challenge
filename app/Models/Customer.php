@@ -10,7 +10,7 @@ class Customer extends User
 
     public static function booted()
     {
-        static::addGlobalScope('biker', function (Builder $builder) {
+        static::addGlobalScope('customer', function (Builder $builder) {
             $builder->where(['role' => Role::CUSTOMER]);
         });
     }
