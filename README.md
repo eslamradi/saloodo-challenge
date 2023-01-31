@@ -1,66 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://www.saloodo.com/" target="_blank"><img src="https://www.saloodo.com/wp-content/uploads/2021/05/logo-saloodo-dark.svg" width="200" alt="Saloodo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# About Saloodo Challenge
 
-## About Laravel
+This is the working repository for the backend challenge for a Senior PHP Developer position at Saloodo.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- ## Brief
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    A private delivery service company in Cologne handles the collection and delivery of parcels for people.
+- ## Deliverables
+    Create a PHP-based API server responsible for mocking authentication of the senders and the bikers, and for serving mock data, via REST API.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Dependencies
 
-## Learning Laravel
+This project is set up to be built with docker instead of installing any software you don't need on your machine, you should have [`docker`](https://docs.docker.com/get-docker/) and [`docker-compose`](https://docs.docker.com/compose/) installed on your system.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# Run the application
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Kindly follow the next steps in order to be able to run the application: 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+1. clone and cd to the root path of this repository.
+    ```
+    cd saloodo-challenge
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+2. if you're using a windows based system copy the `.env.example` into `.env` manually or using the command :
 
-### Premium Partners
+    ```
+    copy .env.example .env
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    OR if you're using a unix/linux based system: 
+    
+    ```
+    cp .env.example .env
+    ```
 
-## Contributing
+    (optional) replace the credentials or ports if you need to; in case deploying to a production environment or leave as is in case of development environment 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    by default ports 8000, 4306 are not used by any service on your machine, if you run any services through these ports you can change the `DOCKER_APP_PORT` and `DOCKER_DB_PORT`
+    
 
-## Code of Conduct
+3. build and run the docker containers defined at the `docker-compose.yml` file:
+    
+    ```
+    docker-compose up -d --build
+    ```
+    Now the application is available for use on http://localhost:8000 or the port you chose
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+<!-- > postman collection for the progect is present within the `.postman` directory     -->
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Database Migration and Seeders
+By default the database migrations are run along with the container build process, so now we need only to seed the database through the following command:
 
-## License
+```
+docker-compose exec app php artisan db:seed
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+As per requirements I have added 5 senders and 10 bikers to the initial database seeding, I have also created factories for `Customer`, `Biker`, `Parcel` models to seed the database on the go. 
+
+# Testing the application
+
+
+To run the tests for the application to make sure everything is okay you need to run the followng command: 
+
+```
+docker-compose exec app php artisan test
+```
+
+# Comments
+
+- For the business case to be content, I've designed the flow for bikers to 
+    - (first) send a request to reserve a parcel; providing expected pickup, and delivery times to be seen by the parcel owner. 
+    I planned to implement a cancel action for both bikers and customers in case of any sudden change of plans, I had no time to implement it yet it's very doable.
+    - (second) send a request to pickup the parcel in order for the system to observe the actual pickup time.
+    - (lastly) send a request to mark the parcel as delivered and update the respective timestamps on the model.  
+
+
+- I have created a simple authentication and authorization flow with the help of the multi guard authentication features provided by laravel with roles `customer` and `biker` and both are authenticated with a `jwt` token.
+
+- By default the application initialization is done with the container build through the containers entrypoint script located within `docker-compose/startup/build.sh` file that contains the following commands
+ 
+    ```
+    composer install --no-interaction --optimize-autoloader
+    php artisan key:generate
+    php artisan jwt:secret --always-no
+    php artisan migrate --force
+    ```

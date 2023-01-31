@@ -18,6 +18,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        \App\Events\Parcel\ParcelCreated::class => [
+            \App\Listeners\Parcel\SendParcelUpdateToBiker::class,
+        ],
+        \App\Events\Parcel\ParcelPickedUp::class => [
+            \App\Listeners\Parcel\SendParcelUpdateToCustomer::class,
+        ],
+        \App\Events\Parcel\ParcelDilevered::class => [
+            \App\Listeners\Parcel\SendParcelUpdateToCustomer::class,
+        ]
     ];
 
     /**
