@@ -71,14 +71,16 @@ docker-compose exec app php artisan test
 
 # Comments
 
-- For the business case to be content, I've designed the flow for bikers to 
+- For the business case to be content, I've designed `the flow for bikers` to 
     - (first) send a request to reserve a parcel; providing expected pickup, and delivery times to be seen by the parcel owner. 
     I planned to implement a cancel action for both bikers and customers in case of any sudden change of plans, I had no time to implement it yet it's very doable.
     - (second) send a request to pickup the parcel in order for the system to observe the actual pickup time.
     - (lastly) send a request to mark the parcel as delivered and update the respective timestamps on the model.  
 
 
-- I have created a simple authentication and authorization flow with the help of the multi guard authentication features provided by laravel with roles `customer` and `biker` and both are authenticated with a `jwt` token.
+- I have created a simple `authentication` and `authorization` flow with the help of the multi guard authentication features provided by laravel with roles `customer` and `biker` and both are authenticated with a `jwt` token.
+
+- I had in mind the possibility for the system to have `real time notifications` so I setup the events and liseners for the parcel status updates but I have not fully implemented them. 
 
 - By default the application initialization is done with the container build through the containers entrypoint script located within `docker-compose/startup/build.sh` file that contains the following commands
  
