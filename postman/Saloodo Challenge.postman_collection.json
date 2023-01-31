@@ -1,0 +1,696 @@
+{
+	"info": {
+		"_postman_id": "2bf240e7-fe65-442c-b7db-b5f680dfa967",
+		"name": "Saloodo Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7915023"
+	},
+	"item": [
+		{
+			"name": "Biker",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();",
+											"if(res.data.authorization.token)",
+											"    pm.collectionVariables.set('token', res.data.authorization.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"biker\",\n    \"email\": \"biker@mail.com\",\n    \"password\": \"password\",\n    \"role\": \"biker\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/biker/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"biker",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();",
+											"if(res.data.authorization.token)",
+											"    pm.collectionVariables.set('token', res.data.authorization.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"biker@mail.com\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/biker/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"biker",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Authenticated User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/biker/me",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"biker",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();",
+											"if(res.data.authorization.token)",
+											"    pm.collectionVariables.set('token', res.data.authorization.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/biker/refresh",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"biker",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Parcels",
+					"item": [
+						{
+							"name": "Reserve",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"expected_pickup_time\": \"2023-02-05  14:00:00\",\n    \"expected_dropoff_time\": \"2023-02-05  16:00:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/biker/parcel/1/reserve",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"biker",
+										"parcel",
+										"1",
+										"reserve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pickup",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"expected_pickup_time\": \"2023-02-05  14:00:00\",\n    \"expected_dropoff_time\": \"2023-02-05  16:00:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/biker/parcel/1/pickup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"biker",
+										"parcel",
+										"1",
+										"pickup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deliver",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"expected_pickup_time\": \"2023-02-05  14:00:00\",\n    \"expected_dropoff_time\": \"2023-02-05  16:00:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/biker/parcel/1/deliver",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"biker",
+										"parcel",
+										"1",
+										"deliver"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show One",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/parcel/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parcel",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/parcel",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parcel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();",
+											"if(res.data.authorization.token)",
+											"    pm.collectionVariables.set('token', res.data.authorization.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"customer\",\n    \"email\": \"customer@mail.com\",\n    \"password\": \"password\",\n    \"role\": \"customer\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();",
+											"if(res.data.authorization.token)",
+											"    pm.collectionVariables.set('token', res.data.authorization.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"customer@mail.com\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Authenticated User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/customer/me",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();",
+											"if(res.data.authorization.token)",
+											"    pm.collectionVariables.set('token', res.data.authorization.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/customer/refresh",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/customer/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Parcels",
+					"item": [
+						{
+							"name": "Create Parcel",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"parcel 1\",\n    \"description\": \"desc alksdja ajsndakj l\",\n    \"pickup_address\": \"pickup street, pick city\",\n    \"delivery_address\": \"dropoff st, dropoff city\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/parcel",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										"parcel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show One",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/parcel/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parcel",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/parcel",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parcel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({key: 'Accept', value: 'application/json' });"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "biker_token",
+			"value": ""
+		},
+		{
+			"key": "customer_token",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
