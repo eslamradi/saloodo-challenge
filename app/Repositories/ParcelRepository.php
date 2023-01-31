@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Events\Parcel\ParcelCreated;
+use App\Models\Parcel;
 use App\Models\ParcelStatus;
 use App\Models\User;
 use Carbon\Carbon;
@@ -53,9 +54,31 @@ class ParcelRepository extends Repository
      * @param integer $id
      * @return Parcel
      */
-    public function getIfAvailable(int $id)
+    public function getAvailableForReservation(int $id)
     {
-        return Parcel::available()->where(['id' => $id])->first();
+        return Parcel::availableForReservation()->where(['id' => $id])->first();
+    }
+
+    /**
+     * get parcel only if available
+     *
+     * @param integer $id
+     * @return Parcel
+     */
+    public function getAvailableForPickup(int $id, User $user)
+    {
+        return $user->parcels()->availableForPickup()->where(['id' => $id])->first();
+    }
+
+    /**
+     * get parcel only if available
+     *
+     * @param integer $id
+     * @return Parcel
+     */
+    public function getAvailableForDelivery(int $id, User $user)
+    {
+        return $user->parcels()->availableForDelivery()->where(['id' => $id])->first();
     }
 
     /**
@@ -70,6 +93,7 @@ class ParcelRepository extends Repository
         $parcel->status = ParcelStatus::RESERVED;
         $parcel->expected_pickup_time = Carbon::parse($data['expected_pickup_time']);
         $parcel->expected_dropoff_time = Carbon::parse($data['expected_dropoff_time']);
+        $parcel->biker_id = $data['biker_id'];
         $parcel->save();
 
         return $parcel;

@@ -47,28 +47,4 @@ class CustomerFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
-
-    /**
-     * Indicate that the model's role should be biker.
-     *
-     * @return static
-     */
-    public function biker()
-    {
-        return $this->state(fn (array $attributes) => [
-            'role' => Role::BIKER,
-        ]);
-    }
-
-    /**
-     * Indicate that the model's role should be customer.
-     *
-     * @return static
-     */
-    public function customer()
-    {
-        return $this->state(fn (array $attributes) => [
-            'role' => Role::CUSTOMER,
-        ]);
-    }
 }

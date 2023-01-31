@@ -77,8 +77,18 @@ class Parcel extends Model
         );
     }
 
-    public function scopeAvailable()
+    public function scopeAvailableForReservation($query)
     {
-        return $this->where(['status' => ParcelStatus::PENDING]);
+        return $query->where(['status' => ParcelStatus::PENDING]);
+    }
+
+    public function scopeAvailableForPickup($query)
+    {
+        return $query->where(['status' => ParcelStatus::RESERVED]);
+    }
+
+    public function scopeAvailableForDelivery($query)
+    {
+        return $query->where(['status' => ParcelStatus::PICKED_UP]);
     }
 }

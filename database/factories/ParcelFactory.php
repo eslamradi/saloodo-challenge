@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Customer;
 use App\Models\Parcel;
+use App\Models\ParcelStatus;
 use Carbon\Carbon;
 
 class ParcelFactory extends Factory
@@ -25,7 +26,6 @@ class ParcelFactory extends Factory
      */
     public function definition()
     {
-        $now = Carbon::now();
 
         return [
             'title' => $this->faker->sentence(2),
@@ -33,12 +33,43 @@ class ParcelFactory extends Factory
             'pickup_address' => $this->faker->sentence(4),
             'delivery_address' => $this->faker->sentence(4),
             'customer_id' => Customer::factory(),
-            'status' => $this->faker->numberBetween(1, 4),
+            'status' => ParcelStatus::PENDING,
+        ];
+    }
+
+    public function reserved()
+    {
+        $now = Carbon::now();
+        return $this->state(fn (array $attributes) => [
+            'status' => ParcelStatus::RESERVED,
+            'biker_id' => Biker::factory(),
+            'expected_pickup_time' => $now->addMinutes(3)->toDateTime(),
+            'expected_dropoff_time' => $now->addMinutes(30)->toDateTime(),
+        ]);
+    }
+
+    public function pickedUp()
+    {
+        $now = Carbon::now();
+        return $this->state(fn (array $attributes) => [
+            'status' => ParcelStatus::PICKED_UP,
+            'biker_id' => Biker::factory(),
+            'expected_pickup_time' => $now->addMinutes(3)->toDateTime(),
+            'pickup_time' => $now->addMinutes(5)->toDateTime(),
+            'expected_dropoff_time' => $now->addMinutes(30)->toDateTime(),
+        ]);
+    }
+
+    public function delivered()
+    {
+        $now = Carbon::now();
+        return $this->state(fn (array $attributes) => [
+            'status' => ParcelStatus::DELIVERED,
             'biker_id' => Biker::factory(),
             'expected_pickup_time' => $now->addMinutes(3)->toDateTime(),
             'pickup_time' => $now->addMinutes(5)->toDateTime(),
             'expected_dropoff_time' => $now->addMinutes(30)->toDateTime(),
             'dropoff_time' => $now->addMinutes(5)->toDateTime(),
-        ];
+        ]);
     }
 }

@@ -5,7 +5,6 @@ use App\Http\Controllers\BikersController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\ParcelsController;
 use App\Models\Role;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,7 +37,7 @@ Route::middleware('auth:customer')->controller(CustomersController::class)->pref
 });
 
 Route::middleware('auth:biker')->controller(BikersController::class)->prefix('biker')->group(function () {
-    Route::put('parcel/{id}/reserve', 'reserveParcel');
-    Route::put('parcel/{id}/pickup', 'createParcel');
-    Route::put('parcel/{id}/deliver', 'createParcel');
+    Route::put('parcel/{id}/reserve', 'reserveParcel')->name('parcel.reserve');
+    Route::put('parcel/{id}/pickup', 'pickupParcel')->name('parcel.pickup');
+    Route::put('parcel/{id}/deliver', 'deliverParcel')->name('parcel.deliver');
 });
